@@ -1,3 +1,4 @@
+package Main;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -26,7 +27,7 @@ public class Player {
 //		this.KeyManager = handler.getKeyMngr();
 		xvel = 0;
 		yvel = 0;
-		maxVel = 2;
+		maxVel = 4;
 		acceleration = 0.6f;
 		friction = 0.8f;
 		bounds = new Rectangle(x,y,width,height);
@@ -43,7 +44,11 @@ public class Player {
 		spawnBounds.x = x-150;
 		spawnBounds.y = y-150;
 		gun.tick();
-		
+		if(handler.getKeyMngr().shift) {
+			maxVel = 8;
+		}else {
+			maxVel = 4;
+		}
 		
 	
 	}

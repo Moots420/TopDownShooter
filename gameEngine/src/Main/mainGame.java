@@ -1,9 +1,15 @@
+package Main;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import ParticalSystem.Effect2;
+import ParticalSystem.Effects;
+import ParticalSystem.particalSystem;
+import ParticalSystem.testEffect;
 
 public class mainGame {
 	private Player player;
@@ -17,8 +23,11 @@ public class mainGame {
 	private Font font16;
 	
 public mainGame(keyManager KeyManager, Handler handler,int score) {
+
 	this.keyM = KeyManager;
 	this.handler = handler;
+	
+
 	font16 = FontLoader.loadFont("pixel.ttf", 16);
 	spawnX = handler.getRandomNumber(0, 800);
 	spawnY = handler.getRandomNumber(0,600);
@@ -26,6 +35,9 @@ public mainGame(keyManager KeyManager, Handler handler,int score) {
 	//enemies.add(new Enemy(handler,handler.getRandomNumber(0, 780),handler.getRandomNumber(0, 580),1.5f));
 	addEnemy(1);
 	highScore = score; 
+	
+	
+	
 }
 //Tick and Render
 
@@ -36,7 +48,7 @@ public void reset() {
 	player.x = spawnX;
 	player.y = spawnY;
 	player.getGun().setWeaponType(0);
-	player.setMaxVel(2);
+	
 	if(deaths>highScore) {
 		highScore = deaths;
 		try {
@@ -56,6 +68,7 @@ public void reset() {
 public void tick() {
 	
 	player.tick();
+	
 	checkCollisions();
 	
 	if(deaths>= 10 && deaths<20) {
@@ -75,11 +88,12 @@ public void checkCollisions() {
 	for(int i = 0; i<enemies.size();i++) {
 		for(int j = 0; j<player.getGun().getBullets().size(); j++) {
 		if(enemies.get(i).getBounds().intersects(player.getGun().getBullets().get(j).bounds)) {
+			handler.getParticalSystem().createEffect(new Effect2(handler, player.getGun().getBullets().get(j).getX(),player.getGun().getBullets().get(j).getY(),50,5));
 			player.getGun().getBullets().remove(j);
 			enemies.remove(i); 
 			//lvl += 0.1f;
 			deaths += 1;
-			player.setMaxVel(player.getMaxVel()+1);
+			
 			if(deaths < 10) {
 				addEnemy(1);
 			}else if(deaths<20) {
@@ -106,6 +120,7 @@ public void addEnemy(int Amount) {
 public void render(Graphics g) {
 	
 	player.render(g);
+	handler.getParticalSystem().render(g);
 	for(int i = 0; i<enemies.size();i++) {
 		enemies.get(i).render(g);
 		

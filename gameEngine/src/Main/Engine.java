@@ -1,3 +1,4 @@
+package Main;
 
 
 import java.awt.Color;
@@ -7,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
+import ParticalSystem.particalSystem;
 
 
 
@@ -25,6 +28,7 @@ private mainGame game;
 private keyManager KeyManager;
 private Handler handler;
 private int score;
+private particalSystem ParticalSystem;
 	
 	public Engine(String title, int resX, int resY ) {
 		System.setProperty("sun.java2d.opengl", "true"); //set to opengl
@@ -37,11 +41,13 @@ private int score;
 		handler = new Handler();
 		KeyManager = new keyManager();
 		mouseMngr = new MouseHandler();
+		ParticalSystem = new particalSystem();
 		game = new mainGame(KeyManager, handler,score);
 		handler.setKeyMngr(KeyManager);
 		handler.setMouseMngr(mouseMngr);
 		handler.setEngine(this);
 		handler.setGame(game);
+		handler.setParticalSystem(ParticalSystem);
 
 		
 	}
@@ -67,6 +73,7 @@ private int score;
 	private void tick() {
 		game.tick();
 		KeyManager.tick();
+		ParticalSystem.tick();
 	
 	}
 	private void render() {
@@ -83,6 +90,7 @@ private int score;
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
 		game.render(g);
+	
 		
 		
 		//end draw

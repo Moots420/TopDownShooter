@@ -1,3 +1,4 @@
+package Main;
 
 
 import java.awt.Color;
@@ -51,6 +52,8 @@ public Gun(int x, int y, int width, int height,Player player,Handler handler) {
 }
     
     public void shoot() {
+    	player.x = (int) (player.x - Math.cos(Math.toRadians(angle))*15);
+    	player.y = (int) (player.y - Math.sin(Math.toRadians(angle))*15);
     	if(weaponType ==0) {
     	bullets.add(new Bullet(x,y,handler,angle));
     	}else if(weaponType == 1) {
